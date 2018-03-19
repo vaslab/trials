@@ -49,8 +49,6 @@
     var txt_sub_result = document.getElementById("txt_sub_result");
 
     function input_change() {
-        var txt_result = document.getElementById("txt_result");
-        var btn_result = document.getElementById("btn_result");
 
         btn_result.classList.remove("btn-error");
         btn_result.classList.remove("btn-success");
@@ -94,8 +92,7 @@
                                 txt_sub_result.value = "B";
                             }
                         }
-
-                        res_block.style.display = "block";
+                        
                     }else{
                         btn_result.classList.remove("btn-success");
                         btn_sub_result.classList.remove("btn-success");

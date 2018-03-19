@@ -47,10 +47,6 @@
     }
 
     function search_pref() {
-        var res_block = document.getElementById("result-block");
-        var txt_result = document.getElementById("txt_result");
-        var btn_result = document.getElementById("btn_result");
-
         $.ajax({
             url: './data/pref.json',
             success: function (response) {
@@ -72,8 +68,6 @@
                         }else{
                             txt_result.value = "B";
                         }
-
-                        res_block.style.display = "block";
                     }else{
                         btn_result.classList.remove("btn-success");
                         btn_result.classList.add("btn-error");

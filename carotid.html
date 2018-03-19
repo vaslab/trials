@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Risk factor Intervention Trials</title>
+    <link rel="stylesheet" type="text/css" href="css/spectre-exp.css">
+    <link rel="stylesheet" type="text/css" href="css/spectre.css">
+    <link rel="stylesheet" type="text/css" href="css/spectre-icons.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div class="column col-12">
+        <div class="empty">
+            <div>
+                <a class="btn btn-primary" href="index.html">
+                    Home &nbsp;&nbsp;&nbsp;<i class="icon icon-apps"></i>&nbsp;
+                </a>
+            </div>
+            <figure class="flex-centered container column col-2">
+                <img src="images/search.png" class="img-responsive" alt="...">
+            </figure>
+            <p class="empty-title h3">Carotid Trials</p>
+            <br>
+            <div class="empty-action input-group input-inline">
+                <input type="text" id="txt_patient_id" class="form-input" placeholder="Patient id e.g. 24" onfocus="input_change()">
+                <button class="btn btn-primary input-group-btn" onclick="search_pref()">Search</button>
+            </div>
+            <br>
+            <br>
+            <div class="empty-action input-group input-inline">
+                <button id="btn_result" class="btn input-group-btn">Group&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                <input type="text" id="txt_result" class="form-input centered" placeholder="" disabled>
+            </div>
+            <br>
+            <div class="empty-action input-group input-inline">
+                <button id="btn_sub_result" class="btn input-group-btn">Subgroup</button>
+                <input type="text" id="txt_sub_result" class="form-input centered" placeholder="" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var res_block = document.getElementById("result-block");
+    var txt_result = document.getElementById("txt_result");
+    var btn_result = document.getElementById("btn_result");
+    var btn_sub_result = document.getElementById("btn_sub_result");
+    var txt_sub_result = document.getElementById("txt_sub_result");
+
+    function input_change() {
+        var txt_result = document.getElementById("txt_result");
+        var btn_result = document.getElementById("btn_result");
+
+        btn_result.classList.remove("btn-error");
+        btn_result.classList.remove("btn-success");
+
+        btn_sub_result.classList.remove("btn-error");
+        btn_sub_result.classList.remove("btn-success");
+
+        txt_result.value = "";
+    }
+    function search_pref() {
+
+        $.ajax({
+            url: './data/car.json',
+            success: function (response) {
+                var pref_data = JSON.parse(response);
+                var txt_id = document.getElementById("txt_patient_id").value;
+                var id = parseInt(txt_id);
+                if(isNaN(id)){
+                    btn_result.classList.remove("btn-success");
+                    btn_sub_result.classList.remove("btn-success");
+                    btn_result.classList.add("btn-error");
+                    btn_sub_result.classList.add("btn-error");
+
+                    txt_result.value = "Invalid id";
+                }else{
+                    btn_result.classList.remove("btn-error");
+                    btn_sub_result.classList.remove("btn-error");
+                    btn_result.classList.add("btn-success");
+                    btn_sub_result.classList.add("btn-success");
+                    if(id <= 208 && id >= 1){
+                        var group_id = pref_data[id-1];
+                        if(group_id == 0){
+                            txt_result.value = "A";
+                            txt_sub_result.value = "-";
+                        }else{
+                            if(group_id == 1){
+                                txt_result.value = "B";
+                                txt_sub_result.value = "A";
+                            }else{
+                                txt_result.value = "B";
+                                txt_sub_result.value = "B";
+                            }
+                        }
+
+                        res_block.style.display = "block";
+                    }else{
+                        btn_result.classList.remove("btn-success");
+                        btn_sub_result.classList.remove("btn-success");
+                        btn_result.classList.add("btn-error");
+                        btn_sub_result.classList.add("btn-error");
+
+                        txt_result.value = "Invalid id";
+                        txt_sub_result.value = "-";
+                    }
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>
